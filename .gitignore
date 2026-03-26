@@ -1,0 +1,138 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Uploads and temp files
+backend/uploads/
+uploads/
+temp/
+tmp/
+
+# Node.js (if added later)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Package managers
+*.lock
+poetry.lock
+Pipfile.lock
+
+# Testing
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Misc
+.metadata
+*.bak
+*.tmp
+
+# Sensitive files
+# Secrets and credentials
+secrets.json
+config/secrets.json
+*.key
+*.pem
+*.p12
+*.pfx
+private_key
+private_key.*
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+database.db
+
+# API keys and tokens
+.api_keys
+.tokens
+apikeys.txt
+
+# AWS, Google Cloud, and other cloud credentials
+*.credentials
+.aws/
+.google/
+credentials.json
+service-account-key.json
+
+# Authentication tokens
+.auth_token
+.refresh_token
+oauth_token.txt
+
+# Private configuration
+config/local.py
+config/private.py
+settings/local.py
+settings/private.py
+
+# SSL/TLS certificates
+*.crt
+*.cert
+*.cer
+*.der
+*.p7b

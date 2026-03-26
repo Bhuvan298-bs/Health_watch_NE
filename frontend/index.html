@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Community Health Monitoring and Early Warning System for Water-Borne Diseases in Rural Northeast India">
+    <title>HealthGuard NE - Smart Health Monitor</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="icon" href="/images/logo.png">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Toast Container -->
+        <div id="toast-container" class="toast-container"></div>
+
+        <!-- ═══ AUTH PAGE ═══ -->
+        <div id="auth-page" class="auth-page">
+            <video class="auth-bg-video" autoplay muted loop>
+                <source src="/videos/background.mp4" type="video/mp4">
+            </video>
+            <div class="auth-overlay"></div>
+            <div class="auth-card slide-up">
+                <div class="auth-logo">
+                    <img src="/images/logo.png" alt="Logo" class="logo-icon">
+                    <h1 class="auth-title text-gradient">HealthGuard NE</h1>
+                    <p class="auth-subtitle">Smart Community Health Monitor</p>
+                    <p style="font-size:0.72rem;color:var(--text-muted);margin-top:4px">Water-Borne Disease Early Warning • Northeast India</p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" id="login-username" placeholder="Enter username" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" id="login-password" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full btn-lg" id="login-btn">
+                        🔐 Sign In
+                    </button>
+                    <div class="auth-toggle">
+                        Don't have an account? <a href="#" onclick="showRegister()">Register here</a>
+                    </div>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" class="hidden" onsubmit="handleRegister(event)">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="reg-fullname" placeholder="Full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" id="reg-username" placeholder="Username" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="reg-email" placeholder="Email address" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" id="reg-password" placeholder="Create password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Role</label>
+                        <select class="form-control" id="reg-role" required>
+                            <option value="user">👤 Public User</option>
+                            <option value="worker">👷 Health Worker</option>
+                        </select>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="reg-phone" placeholder="Phone number">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Village</label>
+                            <input type="text" class="form-control" id="reg-village" placeholder="Your village">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">District</label>
+                        <select class="form-control" id="reg-district">
+                            <option value="">Select district</option>
+                            <option value="Kamrup">Kamrup (Guwahati)</option>
+                            <option value="Nagaon">Nagaon</option>
+                            <option value="Sonitpur">Sonitpur</option>
+                            <option value="Dibrugarh">Dibrugarh</option>
+                            <option value="Jorhat">Jorhat</option>
+                            <option value="Cachar">Cachar</option>
+                            <option value="Goalpara">Goalpara</option>
+                            <option value="Barpeta">Barpeta</option>
+                            <option value="Darrang">Darrang</option>
+                            <option value="Tinsukia">Tinsukia</option>
+                            <option value="Sibsagar">Sibsagar</option>
+                            <option value="Lakhimpur">Lakhimpur</option>
+                            <option value="Dhemaji">Dhemaji</option>
+                            <option value="Morigaon">Morigaon</option>
+                            <option value="Karbi Anglong">Karbi Anglong</option>
+                            <option value="Imphal East">Imphal East</option>
+                            <option value="Imphal West">Imphal West</option>
+                            <option value="East Khasi Hills">East Khasi Hills</option>
+                            <option value="Kohima">Kohima</option>
+                            <option value="Aizawl">Aizawl</option>
+                            <option value="East Siang">East Siang</option>
+                            <option value="West Tripura">West Tripura</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success w-full btn-lg">
+                        ✨ Create Account
+                    </button>
+                    <div class="auth-toggle">
+                        Already have an account? <a href="#" onclick="showLogin()">Sign in</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ═══ MAIN APP ═══ -->
+        <div id="main-app" class="hidden">
+            <!-- Navbar -->
+            <nav class="navbar" id="navbar">
+                <a class="navbar-brand" href="#" onclick="goHome()">
+                    <img src="/images/logo.png" alt="Logo" class="logo-icon">
+                    <div>
+                        <span class="brand-text">HealthGuard NE</span>
+                        <span class="brand-sub" id="nav-role-badge">Admin Dashboard</span>
+                    </div>
+                </a>
+                <ul class="navbar-nav" id="navbar-nav"></ul>
+                <div class="navbar-actions">
+                    <button class="notification-btn" onclick="toggleNotifications()" id="notif-btn">
+                        🔔
+                        <span class="notification-badge hidden" id="notif-badge">0</span>
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="logout()">
+                        ⬅ Logout
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Notification Panel -->
+            <div class="notification-panel" id="notification-panel">
+                <div class="notification-panel-header">
+                    <h3 style="font-size:1rem">🔔 Notifications</h3>
+                    <button class="btn btn-sm btn-outline" onclick="markAllRead()">Mark all read</button>
+                </div>
+                <div id="notification-list"></div>
+            </div>
+
+            <!-- Dashboard Layout -->
+            <div class="dashboard-layout">
+                <aside class="sidebar" id="sidebar"></aside>
+                <main class="main-content" id="main-content">
+                    <!-- Content loaded dynamically -->
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/utils.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="/js/worker.js"></script>
+    <script src="/js/user.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
