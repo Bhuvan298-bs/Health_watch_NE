@@ -1,0 +1,93 @@
+Fig 1.1 - Geographic Coverage of HealthGuard NE across Northeast India
+Prompt:
+Create a clean, professional infographic map of Northeast India showing the eight states (Assam, Arunachal Pradesh, Manipur, Meghalaya, Mizoram, Nagaland, Sikkim, Tripura) with district-level markers for HealthGuard NE coverage. Use a blue-green healthcare color palette, subtle terrain texture, soft shadows, and location pins connected to a central HealthGuard NE hub. Add a small legend for coverage intensity (high, medium, low). Minimal text labels only for state names. Report-ready style, high clarity, 4:3 aspect ratio, ultra-detailed.
+
+------------------------------------------------------------
+
+Fig 3.1 - Agile Development Lifecycle for HealthGuard NE
+Prompt:
+Design a modern circular Agile lifecycle diagram for a healthcare software project named HealthGuard NE. Show stages: Planning, Requirements, Design, Development, Testing, Deployment, Review, and Iteration. Use icon-based nodes, directional arrows, clean white background, blue and teal accent colors, balanced spacing, and minimal text. Corporate report style, vector infographic look, high resolution, 16:9 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 3.2 - Sprint-wise Feature Delivery Mapping
+Prompt:
+Create a timeline infographic showing sprint-wise feature delivery for HealthGuard NE across 6 sprints. Visualize each sprint as a milestone card with delivered features (Authentication, Report Submission, AI Risk Scoring, Alert System, Dashboards, Performance Optimization). Use horizontal roadmap style, color-coded feature tags, clean typography, subtle gradient background, and professional project management style. No clutter, report-friendly, 16:9 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 5.1 - Three-Tier System Architecture of HealthGuard NE
+Prompt:
+Generate a technical architecture diagram of a three-tier web system for HealthGuard NE. Show Presentation Layer (web frontend interfaces), Application Layer (Flask backend, authentication, AI engine, APIs), and Data Layer (SQLite database, file storage). Include directional arrows for data flow, clear boxes, icons for server/database/users, and a secure healthcare technology theme in blue-green colors. Clean enterprise architecture style, white background, 16:9 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 5.2 - Request Processing Flow Diagram
+Prompt:
+Create a detailed request processing flow diagram for HealthGuard NE: User Request -> Authentication Check -> Role Validation -> Business Logic Processing -> AI Risk Evaluation (if applicable) -> Database Read/Write -> Response Generation -> UI Display. Use professional flowchart symbols, clear arrows, decision diamonds, and color-coded stages (security, logic, data, output). Minimal text, highly readable, technical report quality, 4:3 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 5.3 - Database Entity-Relationship Diagram
+Prompt:
+Create a polished ER diagram for HealthGuard NE database with entities such as Users, HealthReports, Alerts, Villages, RiskScores, and Recommendations. Show primary keys and foreign key relationships with clean connectors and crow's foot notation. Use a crisp technical blueprint style, white or light background, thin lines, readable labels, and balanced spacing for report inclusion. High-resolution database design visual, 4:3 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 5.4 - System Flowchart for Health Report Submission
+Prompt:
+Generate a system flowchart illustrating HealthGuard NE health report submission process: Login -> Role-based Access -> Open Submission Form -> Input Symptoms and Vitals -> Upload Optional Evidence -> Validate Inputs -> Submit -> Store in Database -> Trigger AI Scoring -> Notify Relevant Stakeholders. Use modern flowchart design with decision nodes, process blocks, and success/error branches. Healthcare UI-inspired colors, professional and clean, 4:3 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 5.5 - AI Risk Scoring Engine Architecture
+Prompt:
+Create a technical AI architecture diagram for HealthGuard NE risk scoring engine. Show modules: Data Ingestion, Preprocessing, Feature Extraction, Risk Model Inference, Confidence Scoring, Alert Mapping, and Recommendation Output. Include arrows for pipeline flow and optional feedback loop for model improvement. Style should be advanced but clear, healthcare AI theme, cyan/teal accents, vector infographic quality, 16:9 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 5.6 - Alert Level Classification Model (Green/Yellow/Red)
+Prompt:
+Design a clear tri-level risk classification model visualization for HealthGuard NE with three zones: Green (Low Risk), Yellow (Moderate Risk), Red (High Risk). Show threshold-based progression, symptom severity indicators, and recommended action level for each category. Use intuitive icons and clean panel layout with strong visual contrast, medical report style, white background, 4:3 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 6.1 - Component Diagram of HealthGuard NE
+Prompt:
+Create a UML-style component diagram for HealthGuard NE showing components: Web Client, Auth Module, Report Management Module, AI Engine, Alert Service, Admin Dashboard, Notification Service, and Database. Display interfaces and dependencies with standardized component notation and directional connectors. Professional software engineering documentation style, monochrome plus subtle blue highlights, 16:9 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 6.2 - Role-Based Access Control (RBAC) Matrix
+Prompt:
+Generate a role-based access control matrix for HealthGuard NE. Rows: actions (view reports, submit reports, manage users, configure alerts, monitor system, view recommendations). Columns: roles (Admin, Health Worker, Community Member, Developer). Use checkmarks/crosses with color coding and a clean tabular infographic layout. Clear hierarchy, high readability for academic/technical report, 4:3 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 7.1 - Admin Dashboard Interface
+Prompt:
+Create a realistic web app UI mockup of HealthGuard NE Admin Dashboard. Include KPI cards (total reports, high-risk cases, active alerts), village risk heat summary, recent submissions table, and quick action panel. Use professional healthcare dashboard design, modern typography, clean grid system, blue-green palette, subtle shadows, and high usability. Screenshot-style mockup, 16:9 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 7.2 - Health Worker Report Submission Interface
+Prompt:
+Design a realistic Health Worker report submission interface for HealthGuard NE. Show structured form sections for patient details, symptoms checklist, vitals entry, notes, and optional file upload, with a prominent submit button. Include field validation hints and a simple progress indicator. Mobile-friendly and desktop-friendly healthcare UI style, clean and practical, 16:9 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 7.3 - Community Member Alert and Health Tips Interface
+Prompt:
+Create a user-friendly community interface mockup for HealthGuard NE showing local alert status, personalized health tips, preventive steps, and emergency contact panel. Use simple language labels, large readable cards, warm but professional healthcare color tones, and icon-driven layout suitable for non-technical rural users. Accessible and clean UI screenshot style, 16:9 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 7.4 - Developer Monitoring Console Interface
+Prompt:
+Generate a developer monitoring console UI mockup for HealthGuard NE with system health metrics, API response charts, error logs panel, task queue status, and model inference latency graph. Dark-on-light professional DevOps style, code-monitoring aesthetic, compact widgets, and real-time dashboard feel. Technical yet clean, suitable for engineering report, 16:9 aspect ratio.
+
+------------------------------------------------------------
+
+Fig 7.5 - Village-Level Risk Distribution Chart
+Prompt:
+Create a data visualization chart showing village-level risk distribution for HealthGuard NE. Use a combined bar and map-based style where villages are ranked by risk score and colored by severity (green/yellow/red). Include legend, axis labels, and a concise title area. High-clarity analytical chart style, publication-ready for report, 4:3 aspect ratio.

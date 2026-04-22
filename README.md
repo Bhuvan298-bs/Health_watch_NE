@@ -1,357 +1,455 @@
-# Smart Community Health Monitoring and Early Warning System
+# HealthGuard NE - Smart Community Health Monitoring System
 
-This project is a full-stack, role-based health surveillance platform focused on early detection of water-borne disease risk at village and district level.
+**Smart Community Health Monitoring and Early Warning System for Water-Borne Diseases in Rural Northeast India**
 
-It combines:
-- field data capture by health workers,
-- public symptom submissions,
-- AI-based risk scoring and anomaly checks,
-- admin analytics, alerts, and action workflows.
-
----
-
-## 1. Project Overview
-
-### 1.1 Problem Statement
-Rural and semi-urban regions often face delayed outbreak detection because case signals are fragmented across field workers, public complaints, and local environmental risk factors.
-
-### 1.2 Solution Summary
-This system centralizes health incident reporting and converts incoming records into:
-- village-level risk indicators,
-- flagged suspicious reports,
-- actionable alerts and notices,
-- trend dashboards for decision makers.
+![Status](https://img.shields.io/badge/Status-Active-brightgreen)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-green)
+![SQLite](https://img.shields.io/badge/Database-SQLite-blue)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ---
 
-## 2. Technology Stack
+## 📋 Quick Navigation
 
-### 2.1 Backend Stack
-- Framework: FastAPI
-- Server: Uvicorn
-- Auth: JWT via python-jose + FastAPI HTTPBearer
-- HTTP client: httpx
-- File handling: python-multipart, aiofiles
-- Reporting export: CSV streaming
+- [Overview](#overview) | [Features](#features) | [Quick Start](#quick-start)
+- [Tech Stack](#technology-stack) | [Structure](#project-structure) | [API Docs](#api-documentation)
+- [Database](#database-schema) | [Security](#authentication--security) | [Developer Portal](#developer-portal)
+- **Detailed Docs**: See [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) for in-depth technical information
 
-### 2.2 Frontend Stack
-- HTML5, CSS3, Vanilla JavaScript (no frontend framework)
-- Charting: Chart.js
-- Role-based UI modules:
-  - admin.js
-  - worker.js
-  - user.js
-  - app.js (orchestration)
+---
 
-### 2.3 Data Layer
-- Database: SQLite (WAL mode, foreign keys enabled)
-- Access pattern: raw SQL via sqlite3
+## Overview
 
-### 2.4 AI and Analytics Stack
-- Built-in risk logic in ai_engine.py
-- Libraries available:
-  - scikit-learn
-  - LightGBM
-  - XGBoost
-  - NumPy
-  - Pandas
-- External LLM integration for worker training chatbot:
-  - Groq Chat Completions API
+HealthGuard NE is an intelligent health monitoring system designed to track and predict water-borne disease outbreaks in rural communities across Northeast India.
 
-### 2.5 Python Dependencies
-See requirements.txt for exact versions.
+**Key Capabilities**:
+- Real-time risk assessment based on symptom reports
+- Early warning alerts for potential outbreaks
+- Multi-role dashboards (admin, worker, user, developer)
+- AI-powered disease detection and analysis
+- Comprehensive logging and activity tracking
+- Session management and system monitoring
+
+---
+
+## ✨ Key Features
+
+### For Community Members
+- 📝 Submit symptom reports
+- ⚠️ View village-level disease risk and trends
+- 💧 Access water purification guides
+- 💡 Receive health tips
+- 🔔 Get alerts and notifications
+
+### For Health Workers
+- 🏥 Submit single/bulk reports
+- 📊 View performance metrics
+- 🎓 Access training chatbot
+- 📋 Edit submitted reports
+- 💬 Provide feedback
+
+### For Administrators  
+- 👥 Manage users (approve, delete, deactivate)
+- 📊 View analytics and trends
+- 🚨 Create and broadcast alerts
+- 📢 Send notices to users
+- 📈 Export reports to CSV
+- ⚙️ Configure system settings
+
+### For Developers (NEW - March 2026)
+- 🔍 Monitor system errors and exceptions
+- 👥 Track user activity and sessions
+- 📝 View application logs with color-coding
+- 💬 Manage user feedback
+- 📢 Broadcast notices to specific roles
+- 🗑️ Delete old sessions (24hr/7d/30d/all)
+- ✅ Manage admin/developer accounts
+
+---
+
+## 🛠 Technology Stack
+
+### Backend
+- **FastAPI** (0.104.1) - Async web framework
+- **Python 3.12** - Programming language
+- **SQLite 3** - Database with WAL mode
+- **JOSE** - JWT token handling
+- **Uvicorn** - ASGI server
+
+### Frontend
+- **Vanilla JavaScript** - No framework
+- **HTML5 & CSS3** - Markup and styling
+- **Chart.js** - Data visualization
+- **localStorage** - Client-side storage
+
+### AI/ML
+- scikit-learn, LightGBM, XGBoost, Pandas, NumPy
+
+### Infrastructure
+- Python logging with file rotation (10MB, 10 backups)
+- CORS middleware for cross-origin requests
 
 ---
 
 ## 3. Project Structure
 
-```text
+```
 Health_wath_ne/
-|- run.py
-|- requirements.txt
-|- README.md
-|- backend/
-|  |- main.py
-|  |- database.py
-|  |- auth.py
-|  |- ai_engine.py
-|  |- uploads/
-|  \- .env
-\- frontend/
-   |- index.html
-   |- css/style.css
-   \- js/
-      |- app.js
-      |- auth.js
-      |- admin.js
-      |- worker.js
-      |- user.js
-      \- utils.js
+├── backend/
+│   ├── main.py              # FastAPI (1600+ lines, 45+ endpoints)
+│   ├── auth.py              # Authentication
+│   ├── database.py          # SQLite schema
+│   ├── ai_engine.py         # Risk scoring
+│   └── uploads/             # User files
+├── frontend/
+│   ├── index.html           # Main page
+│   ├── css/style.css        # Styling
+│   └── js/
+│       ├── utils.js         # API helpers
+│       ├── auth.js          # Login/register
+│       ├── app.js           # Main app
+│       ├── admin.js         # Admin dashboard
+│       ├── worker.js        # Worker dashboard
+│       ├── user.js          # User dashboard
+│       └── developer.js     # Developer portal (NEW)
+├── logs/
+│   ├── README.md            # Logging docs
+│   └── app.log              # App log (auto-created)
+├── run.py                   # Server startup
+├── requirements.txt         # Dependencies
+├── health_monitor.db        # Database (auto-created)
+└── PROJECT_DOCUMENTATION.md # Technical docs
 ```
 
 ---
 
-## 4. Core Modules and Responsibilities
+## 🚀 Quick Start Guide
 
-### 4.1 backend/main.py
-Main API service containing:
-- authentication routes,
-- admin routes,
-- worker routes,
-- user/public routes,
-- integrations (Groq status + worker training chat),
-- static frontend serving and upload file serving.
+### Prerequisites
+- Python 3.12+
+- pip package manager
+- Modern web browser
 
-### 4.2 backend/database.py
-Initializes database schema and default admin record.
+### Installation
 
-### 4.3 backend/auth.py
-Handles:
-- password hashing and verification,
-- JWT token creation and decoding,
-- role guards (admin and worker).
+1. **Clone the repository**
+   ```bash
+   cd Health_wath_ne
+   ```
 
-### 4.4 backend/ai_engine.py
-Contains:
-- symptom scoring,
-- disease matching,
-- fake-report detection,
-- village risk scoring,
-- optional model-driven signal calculations.
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### 4.5 frontend/js/app.js
-Decides role-based dashboard entry and triggers corresponding module load.
+3. **Run the application**
+   ```bash
+   python run.py
+   ```
 
----
+4. **Access the application**
+   - Open browser: `http://127.0.0.1:8000`
+   - Database auto-initializes on first run
+   - Default accounts created (see below)
 
-## 5. Data Model (SQLite)
+### Default Accounts (Change in Production!)
 
-Main tables:
-- users
-- health_reports
-- symptom_reports
-- alerts
-- notifications
-- water_sources
-- predictions
-- notices
-
-Key relationships:
-- users.id -> health_reports.worker_id
-- users.id -> alerts.created_by
-- users.id -> notices.created_by
-- users.id -> notifications.user_id
+| Role | Email | Password | Secret Key |
+|------|-------|----------|-----------|
+| Admin | admin@health.gov.in | admin123 | 8951 |
+| Developer | bhuvan330bhuvi@gmail.com | Bhuvan#2004 | 2026 |
+| Developer | naikprashant837@gmail.com | Prashant#2004 | 2026 |
 
 ---
 
-## 6. API Surface (High-Level)
+## 👥 User Roles & Access
 
-### 6.1 Authentication
-- POST /api/auth/register
-- POST /api/auth/login
+### 1. Community Member
+- **Access**: Immediate after registration
+- **Features**: Report symptoms, view risk, get alerts
+- **Endpoints**: `/api/user/*, /api/alerts, /api/notices`
 
-### 6.2 Admin APIs
-- GET /api/admin/workers
-- POST /api/admin/workers/{worker_id}/approve
-- POST /api/admin/workers/{worker_id}/reject
-- GET /api/admin/reports
-- GET /api/admin/dashboard
-- GET /api/admin/worker-performance
-- GET /api/admin/flagged-reports
-- POST /api/admin/alerts
-- POST /api/admin/notices
-- GET /api/admin/water-sources
-- GET /api/admin/trends
-- GET /api/admin/export/csv
-- GET /api/admin/integrations/groq-status
+### 2. Health Worker
+- **Access**: After admin approval
+- **Features**: Submit reports, view metrics, use chatbot
+- **Endpoints**: `/api/worker/*, /api/alerts`
 
-### 6.3 Worker APIs
-- POST /api/worker/reports
-- POST /api/worker/reports/bulk
-- GET /api/worker/my-reports
-- PUT /api/worker/reports/{report_id}
-- POST /api/worker/training-chat
+### 3. Administrator
+- **Access**: Secret key (8951) verification required
+- **Features**: Manage users, create alerts, view analytics
+- **Endpoints**: `/api/admin/*, /api/auth/verify-secret-key`
 
-### 6.4 User and Public APIs
-- POST /api/user/symptom-report
-- GET /api/user/risk-status
-- GET /api/user/my-reports
-- GET /api/alerts
-- GET /api/notices
-- GET /api/notifications
-- POST /api/notifications/read-all
-- GET /api/districts
-- GET /api/villages
-- GET /api/predictions
-- GET /api/weather/{city}
+### 4. Developer
+- **Access**: Secret key (2026) required for login
+- **Features**: Monitor errors, track activity, manage sessions
+- **Endpoints**: `/api/dev/*, /api/auth/dev-login`
 
 ---
 
-## 7. End-to-End Working Flow
+## 📡 API Documentation
 
-### 7.1 Authentication and Session Flow
-1. User logs in with role-aware account.
-2. Backend verifies credentials and approval status.
-3. JWT token is returned.
-4. Frontend stores token and role info in local storage.
-5. app.js routes UI to admin, worker, or user dashboard.
-
-### 7.2 Worker Reporting Flow
-1. Worker submits case report (single or bulk).
-2. Backend stores records.
-3. AI engine computes:
-   - disease hints,
-   - suspicious/fake-report checks,
-   - village risk updates.
-4. If risk level is severe, alert creation logic is triggered.
-5. Admin dashboard immediately reflects latest metrics.
-
-### 7.3 Admin Monitoring Flow
-1. Admin opens dashboard.
-2. Dashboard fetches analytics and recent reports.
-3. Admin reviews village risk map, trends, flagged reports.
-4. Admin can issue alerts and notices.
-5. Notifications are delivered to target users/workers.
-
-### 7.4 Worker AI Training Chat Flow
-1. Worker asks chatbot question in UI.
-2. Frontend calls POST /api/worker/training-chat.
-3. Backend checks GROQ_API_KEY and forwards prompt to Groq API.
-4. Reply returned to worker UI.
-5. If API fails in frontend layer, local fallback answers are used.
-
----
-
-## 8. Flowcharts
-
-### 8.1 Overall System Flow
-
-```mermaid
-flowchart TD
-    A[Field Worker or Public User] --> B[Frontend Portal]
-    B --> C[FastAPI Backend]
-    C --> D[(SQLite Database)]
-    C --> E[AI Engine]
-    E --> C
-    C --> F[Admin Dashboard Analytics]
-    C --> G[Alerts and Notifications]
-    C --> H[Groq API for Worker Training Chat]
+### Authentication (4 endpoints)
+```
+POST /api/auth/register          # Register new user
+POST /api/auth/login             # Login with verification code
+POST /api/auth/dev-login         # Developer login
+POST /api/auth/verify-secret-key # Verify admin/dev secret
 ```
 
-### 8.2 Worker Report Submission Flow
-
-```mermaid
-flowchart LR
-    A[Worker submits report] --> B[Validate and save report]
-    B --> C[Detect disease from symptoms]
-    C --> D[Fake report detection]
-    D --> E[Village risk calculation]
-    E --> F{Risk level red?}
-    F -- Yes --> G[Create outbreak alert + notify admin]
-    F -- No --> H[Store normal update]
-    G --> I[Dashboard update]
-    H --> I[Dashboard update]
+### User Features
+```
+POST /api/user/symptom-report    # Submit symptoms
+GET  /api/user/risk-status       # Get village risk
+GET  /api/user/my-reports        # Get personal reports
 ```
 
-### 8.3 Admin Action Flow
-
-```mermaid
-flowchart TD
-    A[Admin opens dashboard] --> B[Fetch reports and statistics]
-    B --> C[Review risk map and flagged reports]
-    C --> D{Action needed?}
-    D -- Yes --> E[Send alerts and notices]
-    D -- No --> F[Continue monitoring]
-    E --> G[Users and workers receive notifications]
+### Worker Features
+```
+POST /api/worker/reports         # Submit report
+POST /api/worker/reports/bulk    # Bulk upload
+GET  /api/worker/my-reports      # Get worker reports
 ```
 
-### 8.4 Worker Training Chat Flow
-
-```mermaid
-sequenceDiagram
-    participant W as Worker UI
-    participant B as Backend API
-    participant G as Groq API
-
-    W->>B: POST /api/worker/training-chat (message)
-    B->>B: Validate role and input
-    B->>G: Chat completion request
-    G-->>B: Assistant response
-    B-->>W: JSON reply
+### Admin Features
 ```
+GET  /api/admin/dashboard        # System overview
+GET  /api/admin/reports          # All reports
+POST /api/admin/alerts           # Create alert
+POST /api/admin/notices          # Send notice
+DELETE /api/admin/users/{id}     # Remove user
+```
+
+### Developer Features (NEW)
+```
+GET  /api/dev/dashboard          # Statistics
+GET  /api/dev/error-logs         # Error logs
+GET  /api/dev/user-activity      # Sessions
+POST /api/dev/delete-sessions    # Delete sessions by age
+GET  /api/dev/logs               # Application logs
+GET  /api/dev/feedback           # User feedback
+POST /api/dev/send-notice        # Broadcast notice
+```
+
+### Public Access (5 endpoints)
+```
+GET  /api/alerts                 # Health alerts
+GET  /api/notices                # Public notices
+GET  /api/districts              # All districts
+GET  /api/villages               # Villages by district
+GET  /api/weather/{city}         # Weather info
+```
+
+**Total**: 45+ fully functional endpoints
+
+For complete API documentation, see [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md)
 
 ---
 
-## 9. Security and Access Control
+## 🔐 Authentication & Security
 
-- JWT-based stateless authentication.
-- Role checks enforced via dependency guards:
-  - require_admin
-  - require_worker
-- Worker approval workflow enforced before account usage.
-- Inactive account blocking is applied during login.
-- Sensitive keys are loaded from backend/.env at startup.
+### Password Security
+- **Algorithm**: SHA-256 with random salt
+- **Format**: `salt$hash_value`
+- **Verification**: On every login
+
+### JWT Tokens
+- **Duration**: 24 hours from issuance
+- **Payload**: user_id, username, role, name, village, district
+- **Storage**: localStorage (frontend)
+- **Refresh**: Fresh token on every API request
+
+### Verification Codes (30-Second TOTP)
+- **Duration**: 30 seconds per code block
+- **Algorithm**: `(block * 9973) % 10000`
+- **Security**: Code changes every 30 seconds, no replay
+
+### Secret Keys
+- **Admin**: 8951 (required after login)
+- **Developer**: 2026 (required for login)
+- **Purpose**: Additional authentication layer
 
 ---
 
-## 10. Configuration
+## 🔧 Developer Portal
 
-Create or update backend/.env with:
+### 8 Feature Menu
 
-```env
-WEATHER_API_KEY=your_openweather_key
-GROQ_API_KEY=your_groq_key
-GROQ_MODEL=llama-3.1-8b-instant
+1. **📊 Dashboard** - System statistics and overview
+2. **🔴 Error Logs** - View and filter system errors
+3. **👥 User Activity** - Monitor sessions, delete by age
+4. **💬 Feedback** - Review and respond to feedback
+5. **📢 Send Notice** - Broadcast to specific roles
+6. **📝 App Logs** - View application logs (color-coded)
+7. **⚙️ Manage Admins** - Create/manage admin accounts
+8. **⚙️ Manage Developers** - Create/manage dev accounts
+
+### Session Management
+- View active sessions with login time, duration, IP
+- Delete sessions by age:
+  - Last 24 hours
+  - Last 7 days
+  - Last 30 days
+  - All sessions
+- Individual session deletion
+- Safety confirmations on all deletions
+
+---
+
+## 📊 Database Structure
+
+### Main Tables
+- **users** - User accounts (admin, worker, user, developer)
+- **health_reports** - Worker-submitted reports
+- **symptom_reports** - Public symptom reports
+- **user_sessions** - Session and activity tracking
+- **error_logs** - System error logs
+- **feedback** - User feedback and suggestions
+- **dev_notices** - Developer broadcast notices
+- **alerts, notifications, notices** - System messages
+
+### Entity Relationships
+```
+users ──┬──> health_reports (worker_id)
+        ├──> symptom_reports (user_id)
+        ├──> user_sessions (user_id)
+        ├──> error_logs
+        ├──> feedback (from_user_id)
+        └──> dev_notices (created_by)
 ```
 
 ---
 
-## 11. How to Run
+## 📝 Logging System
 
-### 11.1 Install Dependencies
+### Features
+- **File**: logs/app.log (auto-created)
+- **Rotation**: 10MB per file, 10 backup files
+- **Format**: `YYYY-MM-DD HH:MM:SS - logger_name - LEVEL - [file:line] - message`
+- **Levels**: INFO (🔵), WARNING (🟡), ERROR (🔴), DEBUG (🟣)
 
+### What Gets Logged
+- User registration and authentication events
+- Report submissions and alerts
+- Session management and deletions
+- System startup/shutdown
+- All errors and exceptions
+- Developer activity
+
+### Access Methods
+- **Developer Portal**: Click "📝 App Logs" in menu
+- **API**: `GET /api/dev/logs?lines=100`
+- **File**: logs/app.log (direct access)
+
+See [logs/README.md](logs/README.md) for detailed logging documentation
+
+---
+
+## 🐛 Troubleshooting
+
+### Database Not Found
 ```bash
-pip install -r requirements.txt
-```
-
-### 11.2 Start Application
-
-```bash
+# Database auto-creates on first run
+# If issues, delete and restart:
+rm health_monitor.db
 python run.py
 ```
 
-### 11.3 Open in Browser
+### Port Already in Use
+```bash
+# Linux/macOS:
+lsof -i :8000
+kill -9 <PID>
 
-http://127.0.0.1:8000
+# Windows:
+netstat -ano | findstr :8000
+taskkill /PID <PID> /F
+```
+
+### Login/Verification Code Issues
+- System time must be synchronized (code is time-based)
+- Code changes every 30 seconds
+- Clear browser localStorage if stuck: F12 → Applications → Clear
+- Try incognito mode
+
+### Unicode/Console Errors
+- Already fixed for Windows compatibility
+- Logging uses UTF-8 encoding
+- Console output uses ASCII-safe text
+
+### Session/Token Errors
+- Clear localStorage
+- Login again to refresh token
+- Check system clock synchronization
 
 ---
 
-## 12. Default Admin Account
+## ✅ Deployment Checklist
 
-On first initialization:
-- Username: admin
-- Password: admin123
-
-Change this password after first login in production usage.
-
----
-
-## 13. Typical Operational Scenario
-
-1. Admin approves newly registered workers.
-2. Workers submit daily field reports.
-3. AI layer updates risk and flags suspicious records.
-4. Admin reviews trends and sends alerts/notices.
-5. Users check risk status and receive safety guidance.
-6. Worker chatbot provides process guidance using Groq.
+- [ ] Change default admin/developer passwords
+- [ ] Update secret keys (8951, 2026)
+- [ ] Configure CORS for production domain
+- [ ] Set up SSL/HTTPS certificate
+- [ ] Create automated database backups
+- [ ] Review and update error messages
+- [ ] Test all user roles thoroughly
+- [ ] Set up monitoring/alerting
+- [ ] Document deployment process
+- [ ] Review security configuration
 
 ---
 
-## 14. Key Strengths of the Project
+## 📚 Documentation
 
-- Lightweight architecture (FastAPI + SQLite + Vanilla JS).
-- Clear role-based operational flow.
-- Explainable risk workflow using both heuristic and model signals.
-- Real-time administrative visibility over village/district data.
-- Integrated AI assistant for worker guidance.
+- **[PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md)** - Complete technical reference (15+ sections)
+- **[logs/README.md](logs/README.md)** - Logging system details
+- **[requirements.txt](requirements.txt)** - Python dependencies with versions
+
+---
+
+## 🔗 Quick Reference
+
+| Item | Value |
+|------|-------|
+| **Server URL** | http://127.0.0.1:8000 |
+| **Database** | health_monitor.db (SQLite) |
+| **Logs** | logs/app.log |
+| **Admin Secret** | 8951 |
+| **Developer Secret** | 2026 |
+| **Default Port** | 8000 |
+| **API Endpoints** | 45+ |
+| **User Roles** | 4 (admin, worker, user, dev) |
+
+---
+
+## 📱 System Requirements
+
+**Minimum**:
+- CPU: 2 cores | RAM: 2GB | Storage: 1GB
+- Python 3.12+ | Modern web browser
+
+**Recommended**:
+- CPU: 4+ cores | RAM: 8GB | Storage: 50GB
+- Linux/macOS server deployment
+
+---
+
+## 📄 Version & Status
+
+**Version**: 1.0.0  
+**Last Updated**: March 27, 2026  
+**Status**: Production Ready ✅
+
+---
+
+## 📞 Support
+
+1. Check [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) for detailed information
+2. Review [logs/README.md](logs/README.md) for logging documentation
+3. Check logs/app.log for error messages
+4. See Troubleshooting section above
+
+---
+
+**Built with ❤️ for Smart Community Health Monitoring in Rural Northeast India**
 

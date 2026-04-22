@@ -4,14 +4,20 @@ function buildUserSidebar() {
     $('sidebar').innerHTML = `
         <div class="sidebar-section">Main</div>
         <ul class="sidebar-nav">
-            <li class="sidebar-item"><a class="sidebar-link active" onclick="loadUserDashboard()" id="su-dash"><span class="icon">🏠</span> Home</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadUserReportSymptom()" id="su-report"><span class="icon">🩺</span> Report Symptoms</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadUserRiskStatus()" id="su-risk"><span class="icon">⚠️</span> Risk Status</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadUserHealthTips()" id="su-tips"><span class="icon">💡</span> Health Tips</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadUserWaterGuide()" id="su-water"><span class="icon">💧</span> Safe Water Guide</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadUserHistory()" id="su-history"><span class="icon">📜</span> My Reports</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadCommunityFeed()" id="su-feed"><span class="icon">📢</span> Community Feed</a></li>
-        </ul>`;
+            <li class="sidebar-item"><a class="sidebar-link active" onclick="loadUserDashboard(); closeSidebar()" id="su-dash"><span class="icon">🏠</span> Home</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadUserReportSymptom(); closeSidebar()" id="su-report"><span class="icon">🩺</span> Report Symptoms</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadUserRiskStatus(); closeSidebar()" id="su-risk"><span class="icon">⚠️</span> Risk Status</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadUserHealthTips(); closeSidebar()" id="su-tips"><span class="icon">💡</span> Health Tips</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadUserWaterGuide(); closeSidebar()" id="su-water"><span class="icon">💧</span> Safe Water Guide</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadUserHistory(); closeSidebar()" id="su-history"><span class="icon">📜</span> My Reports</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadCommunityFeed(); closeSidebar()" id="su-feed"><span class="icon">📢</span> Community Feed</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadUserFeedback(); closeSidebar()" id="su-feedback"><span class="icon">💬</span> Feedback</a></li>
+        </ul>
+        <div class="sidebar-section">Personal</div>
+        <ul class="sidebar-nav">
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadProfilePage(); closeSidebar()" id="su-profile"><span class="icon">👤</span> Profile</a></li>
+        </ul>
+    `;
 }
 
 function setUserSidebar(id) {
@@ -177,7 +183,7 @@ async function loadUserWaterGuide() {
         const guide = risk.safe_water_guide || [];
         $('main-content').innerHTML = `
             <h2 class="heading-lg mb-20">💧 <span class="heading-text">Safe Water Guide</span></h2>
-            <p style="color:var(--text-muted);margin-bottom:24px">Learn how to make your water safe for drinking and cooking</p>
+            <p style="color:#E5E7EB;margin-bottom:24px;font-weight:500">Learn how to make your water safe for drinking and cooking</p>
             <div class="grid-3">${guide.map(g => `
                 <div class="guide-card">
                     <div class="guide-icon">${g.icon}</div>
@@ -230,4 +236,97 @@ function showFeedTab(tabId, btn) {
     btn.classList.add('active');
     ['alerts-tab','notices-tab'].forEach(id=> $(id)?.classList.add('hidden'));
     $(tabId)?.classList.remove('hidden');
+}
+
+async function loadUserFeedback() {
+    setUserSidebar('su-feedback');
+    $('main-content').innerHTML = `
+        <h2 class="heading-lg mb-20">💬 <span class="heading-text">Feedback & Ratings</span></h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3 class="card-title mb-16">📝 Submit Feedback</h3>
+                <form onsubmit="submitUserFeedback(event)">
+                    <div class="form-group">
+                        <label class="form-label">Feedback</label>
+                        <textarea class="form-control" id="user-feedback-text" required placeholder="Share your feedback..." style="min-height:100px"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Type</label>
+                        <select class="form-control" id="user-feedback-type">
+                            <option value="general">General Feedback</option>
+                            <option value="bug">Bug Report</option>
+                            <option value="feature">Feature Request</option>
+                            <option value="urgent">Urgent/Critical</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-full">📤 Submit Feedback</button>
+                </form>
+            </div>
+            <div class="card">
+                <h3 class="card-title mb-16">📊 Recent Submissions</h3>
+                <div id="user-feedback-summary" style="min-height:200px">Loading...</div>
+            </div>
+        </div>
+        <div class="card mt-24">
+            <h3 class="card-title mb-16">📋 Your Feedback</h3>
+            <div id="user-feedback-list" style="max-height:500px;overflow-y:auto">Loading...</div>
+        </div>`;
+    loadUserFeedbackList();
+}
+
+async function submitUserFeedback(e) {
+    e.preventDefault();
+    const fd = new FormData();
+    fd.append('feedback_text', $('user-feedback-text').value);
+    fd.append('feedback_type', $('user-feedback-type').value);
+    fd.append('page_or_feature', 'user-dashboard');
+    try {
+        const d = await apiForm('/api/feedback/submit', fd);
+        toast('✅ ' + d.message, 'success');
+        e.target.reset();
+        loadUserFeedbackList();
+    } catch(err) {
+        toast('❌ ' + err.message, 'error');
+    }
+}
+
+async function loadUserFeedbackList() {
+    try {
+        const d = await api('/api/user/feedback');
+        let summary = '<div style="padding:16px">';
+        
+        if (d.feedback && d.feedback.length > 0) {
+            summary += `
+                <div class="stat-card emerald" style="padding:12px;border-radius:8px;text-align:center">
+                    <div style="font-size:0.8rem;color:var(--text-muted)">Total Feedback</div>
+                    <div style="font-size:2rem;font-weight:800">${d.feedback.length}</div>
+                </div>`;
+        }
+        
+        summary += '</div>';
+        $('user-feedback-summary').innerHTML = summary;
+        
+        const list = $('user-feedback-list');
+        if (!d.feedback || d.feedback.length === 0) {
+            list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px">No feedback submitted yet</p>';
+            return;
+        }
+        
+        list.innerHTML = d.feedback.map(f => `
+            <div class="feed-item" style="border-left:3px solid #3b82f6; padding:12px;margin-bottom:8px">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+                    <div>
+                        <div style="font-weight:600;color:var(--text-primary)">Your Feedback</div>
+                        <div style="font-size:0.8rem;color:var(--text-muted)">${f.feedback_type || 'general'}</div>
+                    </div>
+                    <div style="font-size:0.75rem;color:var(--text-muted)">${new Date(f.created_at).toLocaleDateString()}</div>
+                </div>
+                <div style="font-size:0.9rem;color:var(--text-secondary);line-height:1.4">${f.feedback_text}</div>
+                ${f.page_or_feature ? `<div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px">Page: ${f.page_or_feature}</div>` : ''}
+            </div>
+        `).join('');
+    } catch(err) {
+        console.error(err);
+        $('user-feedback-list').innerHTML = `<p style="color:var(--text-muted)">Error loading feedback: ${err.message}</p>`;
+    }
 }

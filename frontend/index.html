@@ -21,6 +21,13 @@
             </video>
             <div class="auth-overlay"></div>
             <div class="auth-card slide-up">
+                <!-- Developer Login Toggle -->
+                <div style="position:absolute;top:20px;right:20px;z-index:10">
+                    <button type="button" class="btn btn-sm" style="background:rgba(100,150,255,0.2);border:1px solid var(--primary);color:var(--primary);padding:8px 16px;border-radius:6px;font-size:0.85rem;cursor:pointer;transition:all 0.3s" onclick="showDevLogin()" id="dev-login-toggle-btn">
+                        👨‍💻 Developer Login
+                    </button>
+                </div>
+
                 <div class="auth-logo">
                     <img src="/images/logo.png" alt="Logo" class="logo-icon">
                     <h1 class="auth-title text-gradient">HealthGuard NE</h1>
@@ -37,6 +44,19 @@
                     <div class="form-group">
                         <label class="form-label">Password</label>
                         <input type="password" class="form-control" id="login-password" placeholder="Enter password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Verification Code (Changes every 30 seconds)</label>
+                        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+                            <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+                                <div style="background:var(--bg-secondary);border:2px solid var(--primary);border-radius:8px;padding:16px 20px;font-size:2rem;font-weight:bold;letter-spacing:8px;font-family:monospace;color:var(--primary);min-width:140px;text-align:center" id="auth-code-display">----</div>
+                                <div style="font-size:0.75rem;color:var(--text-muted)" id="auth-code-countdown">Expires in 30s</div>
+                            </div>
+                            <div style="flex:1">
+                                <input type="text" class="form-control" id="login-code" placeholder="Enter 4-digit code" maxlength="4" pattern="[0-9]{4}" required>
+                                <div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px">Enter the code shown on the left before it expires</div>
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary w-full btn-lg" id="login-btn">
                         🔐 Sign In
@@ -121,6 +141,106 @@
             </div>
         </div>
 
+        <!-- ═══ SECRET KEY VERIFICATION PAGE (ADMIN ONLY) ═══ -->
+        <div id="secret-key-page" class="auth-page hidden">
+            <video class="auth-bg-video" autoplay muted loop>
+                <source src="/videos/background.mp4" type="video/mp4">
+            </video>
+            <div class="auth-overlay"></div>
+            <div class="auth-card slide-up" style="max-width:450px">
+                <div class="auth-logo" style="margin-bottom:30px">
+                    <div style="font-size:3rem;margin-bottom:16px">🔑</div>
+                    <h1 class="auth-title text-gradient">Admin Verification</h1>
+                    <p class="auth-subtitle">Enter Secret Key</p>
+                </div>
+                <form id="secret-key-form" onsubmit="handleSecretKey(event)">
+                    <div class="form-group">
+                        <label class="form-label">Admin Secret Key</label>
+                        <input type="password" class="form-control" id="secret-key-input" placeholder="Enter secret key" required style="font-size:1.2rem;letter-spacing:2px;text-align:center">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full btn-lg" id="secret-key-btn">
+                        🔓 Verify & Access
+                    </button>
+                    <div style="text-align:center;margin-top:16px">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="handleAdminLogout()">
+                            ← Back to Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- ═══ DEVELOPER LOGIN PAGE ═══ -->
+        <div id="dev-login-page" class="auth-page hidden">
+            <video class="auth-bg-video" autoplay muted loop>
+                <source src="/videos/background.mp4" type="video/mp4">
+            </video>
+            <div class="auth-overlay"></div>
+            <div class="auth-card slide-up" style="max-width:500px">
+                <div class="auth-logo" style="margin-bottom:20px">
+                    <div style="font-size:3rem;margin-bottom:12px">⚙️</div>
+                    <h1 class="auth-title text-gradient">Developer Portal</h1>
+                    <p class="auth-subtitle">System Management & Monitoring</p>
+                </div>
+                <form id="dev-login-form" onsubmit="handleDevLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="dev-email" placeholder="Enter developer email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" id="dev-password" placeholder="Enter password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Secret Key (4 digits)</label>
+                        <input type="password" class="form-control" id="dev-secret" placeholder="Developer secret key" maxlength="4" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full btn-lg" id="dev-login-btn">
+                        🔐 Access Developer Portal
+                    </button>
+                    <div style="text-align:center;margin-top:16px">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="showLoginOptions()">
+                            ← Back to Main Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ═══ SUCCESS PAGE ═══ -->
+        <div id="success-page" class="auth-page hidden">
+            <video class="auth-bg-video" autoplay muted loop>
+                <source src="/videos/background.mp4" type="video/mp4">
+            </video>
+            <div class="auth-overlay"></div>
+            <div class="auth-card slide-up" style="text-align:center;max-width:500px">
+                <div style="font-size:4rem;margin-bottom:20px" id="success-icon">✅</div>
+                <h1 class="auth-title text-gradient" style="margin-bottom:12px">Success!</h1>
+                <p id="success-message" style="font-size:1.1rem;color:var(--text-secondary);margin-bottom:30px">Successfully logged into HealthGuard NE</p>
+                <p id="success-countdown" style="font-size:0.9rem;color:var(--text-muted)">Redirecting in <span id="countdown-timer">3</span>s...</p>
+            </div>
+        </div>
+
+        <!-- ═══ DEVELOPER DASHBOARD ═══ -->
+        <div id="dev-dashboard" class="app-container hidden">
+            <div style="display:flex;height:100vh;background:#FFFFFF">
+                <!-- Developer Sidebar -->
+                <div style="width:280px;background:#F8F9FA;border-right:1px solid #E5E7EB;overflow-y:auto;padding:20px">
+                    <div style="margin-bottom:30px;text-align:center">
+                        <div style="font-size:2.5rem;margin-bottom:10px">⚙️</div>
+                        <h2 style="margin:0;font-size:1.2rem;color:#0EA5A4">Developer</h2>
+                        <p style="margin:4px 0 0 0;font-size:0.8rem;color:#9CA3AF" id="dev-name">Portal</p>
+                    </div>
+                    <nav style="display:flex;flex-direction:column;gap:8px" id="dev-menu"></nav>
+                    <button onclick="devLogout()" style="width:100%;padding:12px;background:#EF4444;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:500;margin-top:20px">
+                        🚪 Logout
+                    </button>
+                </div>
+                <!-- Developer Main Content -->
+                <div style="flex:1;overflow-y:auto;padding:30px;background:#FFFFFF">
+                    <div id="dev-content" style="max-width:1400px;margin:0 auto"></div>
+                </div>
+            </div>
+        </div>
         <!-- ═══ MAIN APP ═══ -->
         <div id="main-app" class="hidden">
             <!-- Navbar -->
@@ -132,14 +252,16 @@
                         <span class="brand-sub" id="nav-role-badge">Admin Dashboard</span>
                     </div>
                 </a>
+                <button id="menu-toggle" class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <ul class="navbar-nav" id="navbar-nav"></ul>
                 <div class="navbar-actions">
                     <button class="notification-btn" onclick="toggleNotifications()" id="notif-btn">
                         🔔
                         <span class="notification-badge hidden" id="notif-badge">0</span>
-                    </button>
-                    <button class="btn btn-outline btn-sm" onclick="logout()">
-                        ⬅ Logout
                     </button>
                 </div>
             </nav>
@@ -165,6 +287,8 @@
 
     <script src="/js/utils.js"></script>
     <script src="/js/auth.js"></script>
+    <script src="/js/profile.js"></script>
+    <script src="/js/developer.js"></script>
     <script src="/js/admin.js"></script>
     <script src="/js/worker.js"></script>
     <script src="/js/user.js"></script>

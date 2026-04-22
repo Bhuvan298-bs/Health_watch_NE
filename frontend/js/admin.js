@@ -4,25 +4,31 @@ function buildAdminSidebar() {
     $('sidebar').innerHTML = `
         <div class="sidebar-section">Main</div>
         <ul class="sidebar-nav">
-            <li class="sidebar-item"><a class="sidebar-link active" onclick="loadAdminDashboard()" id="sb-dash"><span class="icon">📊</span> Dashboard</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminReports()" id="sb-reports"><span class="icon">📋</span> All Reports</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminWorkers()" id="sb-workers"><span class="icon">👷</span> Workers</a></li>
+            <li class="sidebar-item"><a class="sidebar-link active" onclick="loadAdminDashboard(); closeSidebar()" id="sb-dash"><span class="icon">📊</span> Dashboard</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminReports(); closeSidebar()" id="sb-reports"><span class="icon">📋</span> All Reports</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminWorkers(); closeSidebar()" id="sb-workers"><span class="icon">👷</span> Workers</a></li>
         </ul>
         <div class="sidebar-section">Analytics</div>
         <ul class="sidebar-nav">
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminTrends()" id="sb-trends"><span class="icon">📈</span> Trend Analytics</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminWater()" id="sb-water"><span class="icon">💧</span> Water Sources</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminPredictions()" id="sb-pred"><span class="icon">🤖</span> AI Predictions</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminTrends(); closeSidebar()" id="sb-trends"><span class="icon">📈</span> Trend Analytics</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminWater(); closeSidebar()" id="sb-water"><span class="icon">💧</span> Water Sources</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminPredictions(); closeSidebar()" id="sb-pred"><span class="icon">🤖</span> AI Predictions</a></li>
         </ul>
         <div class="sidebar-section">Management</div>
         <ul class="sidebar-nav">
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminFlagged()" id="sb-flagged"><span class="icon">🚩</span> Flagged Reports</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminPerformance()" id="sb-perf"><span class="icon">⭐</span> Worker Stats</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminAlerts()" id="sb-alerts"><span class="icon">🔔</span> Send Alerts</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminNotices()" id="sb-notices"><span class="icon">📢</span> Notices</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminExport()" id="sb-export"><span class="icon">📥</span> Export Data</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminDataManagement()" id="sb-data"><span class="icon">🗑️</span> Data Management</a></li>
-        </ul>`;
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminFlagged(); closeSidebar()" id="sb-flagged"><span class="icon">🚩</span> Flagged Reports</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminPerformance(); closeSidebar()" id="sb-perf"><span class="icon">⭐</span> Worker Stats</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminAlerts(); closeSidebar()" id="sb-alerts"><span class="icon">🔔</span> Send Alerts</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminNotices(); closeSidebar()" id="sb-notices"><span class="icon">📢</span> Notices</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminFeedback(); closeSidebar()" id="sb-feedback"><span class="icon">💬</span> Feedback</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminExport(); closeSidebar()" id="sb-export"><span class="icon">📥</span> Export Data</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadAdminDataManagement(); closeSidebar()" id="sb-data"><span class="icon">🗑️</span> Data Management</a></li>
+        </ul>
+        <div class="sidebar-section">Personal</div>
+        <ul class="sidebar-nav">
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadProfilePage(); closeSidebar()" id="sb-profile"><span class="icon">👤</span> Profile</a></li>
+        </ul>
+    `;
 }
 
 function setActiveSidebar(id) {
@@ -96,7 +102,7 @@ async function loadAdminDashboard() {
                                 <div class="flex items-center justify-between mb-8">
                                     <strong>${v.village}</strong> ${riskBadge(v.risk_level)}
                                 </div>
-                                <div style="font-size:0.78rem;color:var(--text-muted)">${v.district} • ${v.report_count} cases • Score: ${v.risk_score}</div>
+                                <div style="font-size:0.78rem;color:#6B7280">${v.district} • ${v.report_count} cases • Score: ${v.risk_score}</div>
                                 <div class="progress-bar mt-8"><div class="progress-fill ${v.risk_level}" style="width:${v.risk_score}%"></div></div>
                             </div>`).join('')}</div>
                 </div>
@@ -113,7 +119,7 @@ async function loadAdminDashboard() {
                     <td>${r.patient_name}</td><td>${r.village}</td><td>${r.district}</td>
                     <td class="truncate" style="max-width:200px">${r.symptoms}</td>
                     <td>${severityBadge(r.severity)}</td><td>${r.worker_name || '-'}</td>
-                    <td style="font-size:0.75rem;color:var(--text-muted)">${timeAgo(r.created_at)}</td>
+                    <td style="font-size:0.75rem;color:#6B7280">${timeAgo(r.created_at)}</td>
                 </tr>`).join('')}</tbody></table></div>
             </div>`;
         // Severity chart
@@ -130,7 +136,21 @@ async function loadAdminDashboard() {
         });
 
         refreshGroqStatus(true);
-    } catch (err) { toast('❌ ' + err.message, 'error'); }
+    } catch (err) {
+        console.error('[Admin Dashboard] Error:', err.message);
+        
+        // Check for authentication errors
+        if (err.message.includes('Unauthorized') || err.message.includes('401')) {
+            toast('❌ Session expired. Please log in again.', 'error');
+            setTimeout(() => {
+                logout();
+            }, 2000);
+        } else if (err.message.includes('403') || err.message.includes('Forbidden')) {
+            toast('❌ You do not have admin access.', 'error');
+        } else {
+            toast('❌ Failed to load dashboard: ' + err.message, 'error');
+        }
+    }
 }
 
 async function loadAdminReports() {
@@ -154,7 +174,15 @@ async function loadAdminReports() {
                 <td>${severityBadge(r.severity)}</td><td>${r.worker_name||'-'}</td>
                 <td>${r.is_flagged ? '🚩' : '✅'}</td><td style="font-size:0.72rem">${timeAgo(r.created_at)}</td>
             </tr>`).join('')}</tbody></table></div>`;
-    } catch (err) { toast('❌ ' + err.message, 'error'); }
+    } catch (err) {
+        console.error('[Admin Reports] Error:', err.message);
+        if (err.message.includes('Unauthorized') || err.message.includes('401')) {
+            toast('❌ Session expired. Please log in again.', 'error');
+            setTimeout(() => { logout(); }, 2000);
+        } else {
+            toast('❌ Failed to load reports: ' + err.message, 'error');
+        }
+    }
 }
 
 function filterReportsTable(val) {
@@ -176,9 +204,17 @@ async function loadAdminWorkers() {
                 <td>${w.is_approved ? '<span class="badge badge-green">Approved</span>' : '<span class="badge badge-yellow">Pending</span>'}</td>
                 <td style="font-size:0.72rem">${w.last_login ? timeAgo(w.last_login) : 'Never'}</td>
                 <td>${!w.is_approved ? `<button class="btn btn-success btn-sm" onclick="approveWorker(${w.id})">✅ Approve</button>
-                    <button class="btn btn-danger btn-sm" onclick="rejectWorker(${w.id})">❌ Reject</button>` : '<span style="color:var(--text-muted);font-size:0.8rem">Active</span>'}</td>
+                    <button class="btn btn-danger btn-sm" onclick="rejectWorker(${w.id})">❌ Reject</button>` : '<span style="color:#6B7280;font-size:0.8rem">Active</span>'}</td>
             </tr>`).join('')}</tbody></table></div>`;
-    } catch (err) { toast('❌ ' + err.message, 'error'); }
+    } catch (err) {
+        console.error('[Admin Workers] Error:', err.message);
+        if (err.message.includes('Unauthorized') || err.message.includes('401')) {
+            toast('❌ Session expired. Please log in again.', 'error');
+            setTimeout(() => { logout(); }, 2000);
+        } else {
+            toast('❌ Failed to load workers: ' + err.message, 'error');
+        }
+    }
 }
 
 async function approveWorker(id) {
@@ -228,7 +264,7 @@ async function loadAdminWater() {
             `<div class="grid-3">${sources.map(s => `
                 <div class="card" style="border-left:3px solid var(--risk-${s.status==='contaminated'?'red':s.status==='warning'?'yellow':'green'})">
                     <h3 style="font-size:1rem;margin-bottom:8px">${s.water_source||'Unknown'}</h3>
-                    <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px">${s.village} — ${s.district}</p>
+                    <p style="font-size:0.8rem;color:#6B7280;margin-bottom:8px">${s.village} — ${s.district}</p>
                     <div class="flex items-center gap-8 mb-8">${riskBadge(s.status==='contaminated'?'red':s.status==='warning'?'yellow':'green')}</div>
                     <div style="font-size:0.8rem">Linked cases: <strong>${s.linked_cases}</strong></div>
                     <div style="font-size:0.8rem">Contamination Score: <strong>${s.contamination_score}%</strong></div>
@@ -247,12 +283,12 @@ async function loadAdminPredictions() {
             `<div class="grid-3">${preds.map(p => {
                 let factors = []; try { factors = JSON.parse(p.factors||'[]'); } catch(e){}
                 return `<div class="card" style="border-top:3px solid var(--risk-${p.risk_level})">
-                    <div class="flex items-center justify-between mb-12">${riskBadge(p.risk_level)}<span style="font-size:0.75rem;color:var(--text-muted)">${p.prediction_date}</span></div>
+                    <div class="flex items-center justify-between mb-12">${riskBadge(p.risk_level)}<span style="font-size:0.75rem;color:#6B7280">${p.prediction_date}</span></div>
                     <h3 style="font-size:1rem">${p.village}</h3>
-                    <p style="font-size:0.8rem;color:var(--text-muted)">${p.district}</p>
+                    <p style="font-size:0.8rem;color:#6B7280">${p.district}</p>
                     <div style="font-size:1.5rem;font-weight:800;margin:8px 0">${p.risk_score}%</div>
                     <div class="progress-bar mb-8"><div class="progress-fill ${p.risk_level}" style="width:${p.risk_score}%"></div></div>
-                    ${factors.map(f => `<div style="font-size:0.75rem;color:var(--text-secondary);padding:2px 0">• ${f}</div>`).join('')}
+                    ${factors.map(f => `<div style="font-size:0.75rem;color:#374151;padding:2px 0">• ${f}</div>`).join('')}
                 </div>`;}).join('')}</div>`}`;
     } catch(e) { toast('❌ '+e.message,'error'); }
 }
@@ -278,7 +314,7 @@ async function loadAdminPerformance() {
         $('main-content').innerHTML = `
             <h2 class="heading-lg mb-20">⭐ <span class="heading-text">Worker Performance</span></h2>
             <div class="table-container"><table><thead><tr><th>Worker</th><th>Village</th><th>District</th><th>Total Reports</th><th>This Week</th><th>This Month</th><th>Flagged</th><th>Last Active</th></tr></thead><tbody>
-            ${workers.map(w=>`<tr><td><strong>${w.full_name}</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">@${w.username}</span></td>
+            ${workers.map(w=>`<tr><td><strong>${w.full_name}</strong><br><span style="font-size:0.72rem;color:#6B7280">@${w.username}</span></td>
             <td>${w.village||'-'}</td><td>${w.district||'-'}</td><td><strong>${w.total_reports}</strong></td>
             <td>${w.weekly_reports}</td><td>${w.monthly_reports}</td>
             <td>${w.flagged_reports>0?`<span class="badge badge-red">${w.flagged_reports}</span>`:'0'}</td>
@@ -290,20 +326,78 @@ async function loadAdminPerformance() {
 function loadAdminAlerts() {
     setActiveSidebar('sb-alerts');
     $('main-content').innerHTML = `
-        <h2 class="heading-lg mb-20">🔔 <span class="heading-text">Send Alert</span></h2>
-        <div class="card" style="max-width:600px">
-            <form onsubmit="sendAlert(event)">
-                <div class="form-group"><label class="form-label">Alert Title</label><input class="form-control" id="alert-title" required placeholder="e.g. Water contamination warning"></div>
-                <div class="form-group"><label class="form-label">Message</label><textarea class="form-control" id="alert-message" required placeholder="Describe the situation..."></textarea></div>
-                <div class="grid-2">
+        <h2 class="heading-lg mb-20">🔔 <span class="heading-text">Alerts Management</span></h2>
+        <div class="grid-2 mb-24">
+            <div class="card">
+                <h3 class="card-title mb-16">📤 Send New Alert</h3>
+                <form onsubmit="sendAlert(event)">
+                    <div class="form-group"><label class="form-label">Alert Title</label><input class="form-control" id="alert-title" required placeholder="e.g. Water contamination warning"></div>
+                    <div class="form-group"><label class="form-label">Message</label><textarea class="form-control" id="alert-message" required placeholder="Describe the situation..." style="min-height:80px"></textarea></div>
                     <div class="form-group"><label class="form-label">Alert Level</label><select class="form-control" id="alert-level"><option value="green">🟢 Green (Info)</option><option value="yellow" selected>🟡 Yellow (Warning)</option><option value="red">🔴 Red (Critical)</option></select></div>
                     <div class="form-group"><label class="form-label">Target Village</label><input class="form-control" id="alert-village" placeholder="Leave blank for all"></div>
-                </div>
-                <div class="form-group"><label class="form-label">Target District</label><input class="form-control" id="alert-district" placeholder="Leave blank for all"></div>
-                <div class="form-group"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="alert-global"> Send to ALL users (Global Alert)</label></div>
-                <button type="submit" class="btn btn-primary btn-lg">📤 Send Alert</button>
-            </form>
+                    <div class="form-group"><label class="form-label">Target District</label><input class="form-control" id="alert-district" placeholder="Leave blank for all"></div>
+                    <div class="form-group"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="alert-global"> Send to ALL users</label></div>
+                    <button type="submit" class="btn btn-primary btn-lg">📤 Send Alert</button>
+                </form>
+            </div>
+            <div class="card">
+                <h3 class="card-title mb-16">📋 Your Alerts</h3>
+                <div id="alerts-list" style="max-height:500px;overflow-y:auto">Loading...</div>
+            </div>
         </div>`;
+    loadMyAlerts();
+}
+
+async function loadMyAlerts() {
+    try {
+        const d = await api('/api/admin/alerts');
+        const alertsList = $('alerts-list');
+        
+        if (d.alerts.length === 0) {
+            alertsList.innerHTML = '<p style="color:#6B7280;text-align:center;padding:20px">No alerts created yet</p>';
+            return;
+        }
+        
+        alertsList.innerHTML = d.alerts.map(a => `
+            <div class="feed-item" style="border-bottom:1px solid var(--border-glass);padding:12px;display:flex;justify-content:space-between;align-items:flex-start">
+                <div style="flex:1">
+                    <div style="font-weight:600;color:#1F2937">${a.title}</div>
+                    <div style="font-size:0.85rem;color:#6B7280;margin:4px 0">${a.message.substring(0, 60)}${a.message.length > 60 ? '...' : ''}</div>
+                    <div style="font-size:0.75rem;color:#6B7280">
+                        Level: <span class="badge badge-${a.alert_level === 'red' ? 'red' : a.alert_level === 'yellow' ? 'yellow' : 'green'}">${a.alert_level.toUpperCase()}</span>
+                        ${a.is_global ? '• Global' : (a.target_district ? '• ' + a.target_district : '') + (a.target_village ? '• ' + a.target_village : '')}
+                        • ${new Date(a.created_at).toLocaleDateString()}
+                    </div>
+                </div>
+                <button class="btn btn-danger btn-sm" onclick="deleteAlert(${a.id}, '${a.title}', true)" style="margin-left:8px">🗑️ Delete</button>
+            </div>
+        `).join('');
+    } catch (e) {
+        console.error(e);
+        $('alerts-list').innerHTML = `<p style="color:#6B7280">Error loading alerts: ${e.message}</p>`;
+    }
+}
+
+async function deleteAlert(alertId, title, isAdmin = false) {
+    if (!confirm(`Are you sure you want to delete the alert: "${title}"?\n\nThis action cannot be undone.`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/admin/alerts/' + alertId, {
+            method: 'DELETE',
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}
+        });
+        
+        if (!response.ok) {
+            throw new Error(await response.text());
+        }
+        
+        toast('✅ Alert deleted successfully', 'success');
+        if (isAdmin) loadMyAlerts();
+    } catch (e) {
+        toast('❌ Error deleting alert: ' + e.message, 'error');
+    }
 }
 
 async function sendAlert(e) {
@@ -318,6 +412,8 @@ async function sendAlert(e) {
     try {
         const d = await apiForm('/api/admin/alerts', fd);
         toast('✅ ' + d.message, 'success');
+        e.target.reset();
+        loadMyAlerts();
     } catch(e) { toast('❌ '+e.message,'error'); }
 }
 
@@ -356,13 +452,13 @@ function loadAdminExport() {
             <div class="card text-center" style="padding:40px">
                 <div style="font-size:3rem;margin-bottom:12px">📊</div>
                 <h3 class="mb-8">Export as CSV</h3>
-                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:20px">Download all health reports in CSV format for analysis in Excel or other tools.</p>
+                <p style="font-size:0.85rem;color:#6B7280;margin-bottom:20px">Download all health reports in CSV format for analysis in Excel or other tools.</p>
                 <a href="/api/admin/export/csv" class="btn btn-primary btn-lg" target="_blank" onclick="addAuthToExport(this)">⬇️ Download CSV</a>
             </div>
             <div class="card text-center" style="padding:40px">
                 <div style="font-size:3rem;margin-bottom:12px">🖨️</div>
                 <h3 class="mb-8">Print Report</h3>
-                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:20px">Print all current data including charts for government submissions.</p>
+                <p style="font-size:0.85rem;color:#6B7280;margin-bottom:20px">Print all current data including charts for government submissions.</p>
                 <button class="btn btn-outline btn-lg" onclick="window.print()">🖨️ Print Page</button>
             </div>
         </div>`;
@@ -392,34 +488,34 @@ async function loadAdminDataManagement() {
             <div class="grid-2 mb-24">
                 <div class="card">
                     <div style="font-size:2rem;margin-bottom:12px">👥</div>
-                    <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:4px">Total Users</div>
+                    <div style="font-size:0.85rem;color:#6B7280;margin-bottom:4px">Total Users</div>
                     <div style="font-size:2rem;font-weight:800">${stats.total_users}</div>
-                    <div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px">Admins: ${stats.admin_count} | Workers: ${stats.worker_count} | Users: ${stats.user_count}</div>
+                    <div style="font-size:0.75rem;color:#6B7280;margin-top:8px">Admins: ${stats.admin_count} | Workers: ${stats.worker_count} | Users: ${stats.user_count}</div>
                 </div>
                 <div class="card">
                     <div style="font-size:2rem;margin-bottom:12px">📋</div>
-                    <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:4px">Total Reports</div>
+                    <div style="font-size:0.85rem;color:#6B7280;margin-bottom:4px">Total Reports</div>
                     <div style="font-size:2rem;font-weight:800">${stats.total_reports}</div>
-                    <div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px">Health: ${stats.health_reports} | Symptom: ${stats.symptom_reports}</div>
+                    <div style="font-size:0.75rem;color:#6B7280;margin-top:8px">Health: ${stats.health_reports} | Symptom: ${stats.symptom_reports}</div>
                 </div>
             </div>
 
             <div class="grid-2 mb-24">
                 <div class="card" style="border-left:3px solid var(--accent-rose);">
                     <div style="font-size:0.9rem;font-weight:600;margin-bottom:12px">⚠️ Delete All Non-Admin Users</div>
-                    <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:16px">Remove all workers and public users, keeping only admin account. This action is irreversible.</p>
+                    <p style="font-size:0.8rem;color:#6B7280;margin-bottom:16px">Remove all workers and public users, keeping only admin account. This action is irreversible.</p>
                     <button class="btn btn-danger btn-lg w-full" onclick="deleteAllNonAdminUsers()">🗑️ Delete All Non-Admin Users</button>
                 </div>
                 <div class="card" style="border-left:3px solid var(--accent-orange);">
                     <div style="font-size:0.9rem;font-weight:600;margin-bottom:12px">🗑️ Delete All Reports</div>
-                    <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:16px">Remove all health and symptom reports from the system. This action is irreversible.</p>
+                    <p style="font-size:0.8rem;color:#6B7280;margin-bottom:16px">Remove all health and symptom reports from the system. This action is irreversible.</p>
                     <button class="btn btn-danger btn-lg w-full" onclick="deleteAllReports()">🗑️ Delete All Reports</button>
                 </div>
             </div>
 
             <div class="card mb-24" style="border-left:3px solid var(--accent-yellow);">
                 <div style="font-size:0.9rem;font-weight:600;margin-bottom:12px">🔄 Full System Reset</div>
-                <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:16px">Delete all data (users except admin, reports, alerts, notices) and reset the system to initial state. This action is irreversible.</p>
+                <p style="font-size:0.8rem;color:#6B7280;margin-bottom:16px">Delete all data (users except admin, reports, alerts, notices) and reset the system to initial state. This action is irreversible.</p>
                 <button class="btn btn-warning btn-lg w-full" onclick="resetAllData()">⚠️ FULL SYSTEM RESET</button>
             </div>
 
@@ -431,7 +527,7 @@ async function loadAdminDataManagement() {
                     <td>${u.username}</td>
                     <td><span class="badge ${u.role === 'admin' ? 'badge-purple' : u.role === 'worker' ? 'badge-blue' : 'badge-green'}">${u.role}</span></td>
                     <td>${u.village || '-'}</td>
-                    <td>${u.role === 'admin' ? '<span style="color:var(--text-muted);font-size:0.8rem">Protected</span>' : `<button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id}, '${u.username}')">Delete</button>`}</td>
+                    <td>${(u.role === 'admin' || u.role === 'developer') ? '<span style="color:#6B7280;font-size:0.8rem">Protected</span>' : `<button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id}, '${u.username}')">Delete</button>`}</td>
                 </tr>`).join('')}
                 </tbody></table></div>
             </div>
@@ -527,5 +623,98 @@ async function resetAllData() {
         loadAdminDataManagement();
     } catch (err) {
         toast('❌ ' + err.message, 'error');
+    }
+}
+
+async function loadAdminFeedback() {
+    setActiveSidebar('sb-feedback');
+    $('main-content').innerHTML = `
+        <h2 class="heading-lg mb-20">💬 <span class="heading-text">Feedback & Ratings</span></h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3 class="card-title mb-16">📝 Submit Feedback</h3>
+                <form onsubmit="submitAdminFeedback(event)">
+                    <div class="form-group">
+                        <label class="form-label">Feedback</label>
+                        <textarea class="form-control" id="admin-feedback-text" required placeholder="Share your feedback..." style="min-height:100px"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Type</label>
+                        <select class="form-control" id="admin-feedback-type">
+                            <option value="general">General Feedback</option>
+                            <option value="bug">Bug Report</option>
+                            <option value="feature">Feature Request</option>
+                            <option value="urgent">Urgent/Critical</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-full">📤 Submit Feedback</button>
+                </form>
+            </div>
+            <div class="card">
+                <h3 class="card-title mb-16">📊 Recent Submissions</h3>
+                <div id="admin-feedback-summary" style="min-height:200px">Loading...</div>
+            </div>
+        </div>
+        <div class="card mt-24">
+            <h3 class="card-title mb-16">📋 Recent Feedback</h3>
+            <div id="admin-feedback-list" style="max-height:500px;overflow-y:auto">Loading...</div>
+        </div>`;
+    loadAdminFeedbackList();
+}
+
+async function submitAdminFeedback(e) {
+    e.preventDefault();
+    const fd = new FormData();
+    fd.append('feedback_text', $('admin-feedback-text').value);
+    fd.append('feedback_type', $('admin-feedback-type').value);
+    fd.append('page_or_feature', 'admin-dashboard');
+    try {
+        const d = await apiForm('/api/feedback/submit', fd);
+        toast('✅ ' + d.message, 'success');
+        e.target.reset();
+        loadAdminFeedbackList();
+    } catch(err) {
+        toast('❌ ' + err.message, 'error');
+    }
+}
+
+async function loadAdminFeedbackList() {
+    try {
+        const d = await api('/api/admin/feedback');
+        let summary = '<div style="padding:16px">';
+        
+        if (d.feedback && d.feedback.length > 0) {
+            summary += `
+                <div class="stat-card emerald" style="padding:12px;border-radius:8px;text-align:center">
+                    <div style="font-size:0.8rem;color:#6B7280">Total Feedback</div>
+                    <div style="font-size:2rem;font-weight:800">${d.feedback.length}</div>
+                </div>`;
+        }
+        
+        summary += '</div>';
+        $('admin-feedback-summary').innerHTML = summary;
+        
+        const list = $('admin-feedback-list');
+        if (!d.feedback || d.feedback.length === 0) {
+            list.innerHTML = '<p style="text-align:center;color:#6B7280;padding:20px">No feedback yet</p>';
+            return;
+        }
+        
+        list.innerHTML = d.feedback.map(f => `
+            <div class="feed-item" style="border-left:3px solid #3b82f6; padding:12px;margin-bottom:8px">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+                    <div>
+                        <div style="font-weight:600;color:#1F2937">${f.username}</div>
+                        <div style="font-size:0.8rem;color:#6B7280">${f.feedback_type || 'general'}</div>
+                    </div>
+                    <div style="font-size:0.75rem;color:#6B7280">${new Date(f.created_at).toLocaleDateString()}</div>
+                </div>
+                <div style="font-size:0.9rem;color:#374151;line-height:1.4">${f.feedback_text}</div>
+                ${f.page_or_feature ? `<div style="font-size:0.75rem;color:#6B7280;margin-top:8px">Page: ${f.page_or_feature}</div>` : ''}
+            </div>
+        `).join('');
+    } catch(err) {
+        console.error(err);
+        $('admin-feedback-list').innerHTML = `<p style="color:#6B7280">Error loading feedback: ${err.message}</p>`;
     }
 }

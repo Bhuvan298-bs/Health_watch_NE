@@ -4,12 +4,17 @@ function buildWorkerSidebar() {
     $('sidebar').innerHTML = `
         <div class="sidebar-section">Main</div>
         <ul class="sidebar-nav">
-            <li class="sidebar-item"><a class="sidebar-link active" onclick="loadWorkerDashboard()" id="sw-dash"><span class="icon">🏠</span> Dashboard</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadWorkerSubmit()" id="sw-submit"><span class="icon">📝</span> Submit Report</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadWorkerBulk()" id="sw-bulk"><span class="icon">📦</span> Bulk Entry</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadWorkerMyReports()" id="sw-reports"><span class="icon">📋</span> My Reports</a></li>
-            <li class="sidebar-item"><a class="sidebar-link" onclick="loadWorkerAlerts()" id="sw-alerts"><span class="icon">🔔</span> Alerts</a></li>
-        </ul>`;
+            <li class="sidebar-item"><a class="sidebar-link active" onclick="loadWorkerDashboard(); closeSidebar()" id="sw-dash"><span class="icon">📊</span> Dashboard</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadWorkerSubmit(); closeSidebar()" id="sw-submit"><span class="icon">📝</span> Submit Report</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadWorkerBulk(); closeSidebar()" id="sw-bulk"><span class="icon">📦</span> Bulk Entry</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadWorkerMyReports(); closeSidebar()" id="sw-reports"><span class="icon">📋</span> My Reports</a></li>
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadWorkerAlerts(); closeSidebar()" id="sw-alerts"><span class="icon">🚨</span> Alerts</a></li>
+        </ul>
+        <div class="sidebar-section">Personal</div>
+        <ul class="sidebar-nav">
+            <li class="sidebar-item"><a class="sidebar-link" onclick="loadProfilePage(); closeSidebar()" id="sw-profile"><span class="icon">👤</span> Profile</a></li>
+        </ul>
+    `;
 }
 
 function setWorkerSidebar(id) {
@@ -32,8 +37,8 @@ async function loadWorkerDashboard() {
         }).length;
         
         $('main-content').innerHTML = `
-            <h2 class="heading-lg mb-20">👷 <span class="heading-text">Worker Dashboard</span></h2>
-            <p style="color:var(--text-muted);margin-bottom:20px">Welcome, <strong>${USER.full_name}</strong> • ${USER.village || ''}, ${USER.district || ''}</p>
+            <h2 class="heading-lg mb-20"><span class="heading-text">📊 Worker Dashboard</span></h2>
+            <p style="color:#6B7280;margin-bottom:20px">Welcome, <strong>${USER.full_name}</strong> • ${USER.village || ''}, ${USER.district || ''}</p>
             <div class="grid-3 mb-24">
                 <div class="stat-card blue"><div class="stat-icon">📋</div><div class="stat-number">${reports.length}</div><div class="stat-label">Total Reports</div></div>
                 <div class="stat-card emerald"><div class="stat-icon">📅</div><div class="stat-number">${todayCount}</div><div class="stat-label">Today's Reports</div></div>
@@ -48,7 +53,7 @@ async function loadWorkerDashboard() {
                 ${reports.slice(0,5).map(r=>`
                     <div class="feed-item"><div class="flex items-center justify-between">
                         <strong>${r.patient_name}</strong> ${severityBadge(r.severity)}
-                    </div><div style="font-size:0.8rem;color:var(--text-muted)">${r.village} • ${r.symptoms.slice(0,60)}... • ${timeAgo(r.created_at)}</div></div>
+                    </div><div style="font-size:0.8rem;color:#6B7280">${r.village} • ${r.symptoms.slice(0,60)}... • ${timeAgo(r.created_at)}</div></div>
                 `).join('')}
             </div>`;
     } catch(e) { toast('❌ '+e.message,'error'); }
@@ -57,7 +62,7 @@ async function loadWorkerDashboard() {
 function loadWorkerSubmit() {
     setWorkerSidebar('sw-submit');
     $('main-content').innerHTML = `
-        <h2 class="heading-lg mb-20">📝 <span class="heading-text">Submit Health Report</span></h2>
+        <h2 class="heading-lg mb-20"><span class="heading-text">📝 Submit Health Report</span></h2>
         <div class="card" style="max-width:700px">
             <form onsubmit="submitReport(event)" enctype="multipart/form-data">
                 <div class="grid-2">
@@ -79,7 +84,7 @@ function loadWorkerSubmit() {
                 </div>
                 <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" id="rpt-notes" placeholder="Additional observations..."></textarea></div>
                 <div class="form-group"><label class="form-label">📷 Photo (Water source / Environment)</label><input type="file" class="form-control" id="rpt-photo" accept="image/*">
-                    <p style="font-size:0.72rem;color:var(--text-muted);margin-top:4px">Upload a photo of the water source or patient environment. AI will analyze the image for potential contamination indicators.</p></div>
+                    <p style="font-size:0.72rem;color:#6B7280;margin-top:4px">Upload a photo of the water source or patient environment. AI will analyze the image for potential contamination indicators.</p></div>
                 <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">📤 Submit Report</button>
             </form>
             <div id="submit-result" class="mt-16 hidden"></div>
@@ -126,9 +131,9 @@ async function submitReport(e) {
 function loadWorkerBulk() {
     setWorkerSidebar('sw-bulk');
     $('main-content').innerHTML = `
-        <h2 class="heading-lg mb-20">📦 <span class="heading-text">Bulk Data Entry</span></h2>
+        <h2 class="heading-lg mb-20"><span class="heading-text">📦 Bulk Data Entry</span></h2>
         <div class="card" style="max-width:800px">
-            <p style="color:var(--text-muted);margin-bottom:16px">Enter multiple patient records quickly. Add rows and submit all at once.</p>
+            <p style="color:#6B7280;margin-bottom:16px">Enter multiple patient records quickly. Add rows and submit all at once.</p>
             <div id="bulk-entries"><div class="bulk-row grid-4 gap-8 mb-8" style="grid-template-columns:1fr 1fr 2fr 1fr">
                 <input class="form-control bulk-name" placeholder="Patient Name">
                 <input class="form-control bulk-village" placeholder="Village" value="${USER.village||''}">
@@ -181,7 +186,7 @@ async function loadWorkerMyReports() {
     try {
         const reports = await api('/api/worker/my-reports');
         $('main-content').innerHTML = `
-            <h2 class="heading-lg mb-20">📋 <span class="heading-text">My Reports</span></h2>
+            <h2 class="heading-lg mb-20"><span class="heading-text">📋 My Reports</span></h2>
             <div class="table-container"><table><thead><tr><th>#</th><th>Patient</th><th>Village</th><th>Symptoms</th><th>Disease</th><th>Severity</th><th>Flagged</th><th>Time</th><th>Edit</th></tr></thead><tbody>
             ${reports.map(r => {
                 const created = new Date(r.created_at);
@@ -216,13 +221,13 @@ async function loadWorkerAlerts() {
     try {
         const alerts = await api('/api/alerts');
         $('main-content').innerHTML = `
-            <h2 class="heading-lg mb-20">🔔 <span class="heading-text">Alert Feed</span></h2>
+            <h2 class="heading-lg mb-20"><span class="heading-text">🚨 Alerts</span></h2>
             ${alerts.map(a => `
                 <div class="feed-item" style="border-left:3px solid var(--risk-${a.alert_level})">
                     <div class="feed-header">${alertBadge(a.alert_level)} <strong>${a.title}</strong>
                         <span class="feed-time">${timeAgo(a.created_at)}</span></div>
                     <div class="feed-body">${a.message}</div>
-                    ${a.target_village?`<div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px">📍 ${a.target_village}${a.target_district?' — '+a.target_district:''}</div>`:''}
+                    ${a.target_village?`<div style="font-size:0.72rem;color:#6B7280;margin-top:6px">📍 ${a.target_village}${a.target_district?' — '+a.target_district:''}</div>`:''}
                 </div>`).join('')}
             ${alerts.length===0?'<div class="empty-state"><div class="empty-icon">🔔</div><p class="empty-title">No alerts</p></div>':''}`;
     } catch(e) { toast('❌ '+e.message,'error'); }
